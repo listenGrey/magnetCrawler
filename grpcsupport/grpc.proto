@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = "javCrawler/grpcsupport";
+
+package javCrawler;
+
+message Tag {
+  string content = 1;
+  string url = 2;
+}
+
+message Magnet {
+  string content = 1;
+  string url = 2;
+  string data = 3;
+}
+
+message Profile {
+  string url = 1;
+  string id = 2;
+  string code = 3;
+  string title = 4;
+  string cover = 5;
+  string releaseData = 6;
+  string duration = 7;
+  string director = 8;
+  Tag company = 9;
+  Tag series = 10;
+  string stars = 11;
+  string starsPerson = 12;
+  repeated Tag type = 13;
+  repeated Tag actor = 14;
+  string fetchTime = 15;
+  repeated string introPics = 16;
+  repeated Magnet magnets = 17;
+}
+
+message Response {
+    string message = 1;
+}
+
+service SaveService {
+    rpc Save (Profile) returns (Response) {}
+}
+
