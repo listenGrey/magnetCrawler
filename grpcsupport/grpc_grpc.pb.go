@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.25.0--rc1
-// source: grpcsupport/grpc.proto
+// source: grpc.proto
 
 package grpcsupport
 
@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SaveServiceClient interface {
-	Save(ctx context.Context, in *Profile, opts ...grpc.CallOption) (*Response, error)
+	Save(ctx context.Context, in *Key, opts ...grpc.CallOption) (*Profile, error)
 }
 
 type saveServiceClient struct {
@@ -33,8 +33,8 @@ func NewSaveServiceClient(cc grpc.ClientConnInterface) SaveServiceClient {
 	return &saveServiceClient{cc}
 }
 
-func (c *saveServiceClient) Save(ctx context.Context, in *Profile, opts ...grpc.CallOption) (*Response, error) {
-	out := new(Response)
+func (c *saveServiceClient) Save(ctx context.Context, in *Key, opts ...grpc.CallOption) (*Profile, error) {
+	out := new(Profile)
 	err := c.cc.Invoke(ctx, "/javCrawler.SaveService/Save", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (c *saveServiceClient) Save(ctx context.Context, in *Profile, opts ...grpc.
 // All implementations must embed UnimplementedSaveServiceServer
 // for forward compatibility
 type SaveServiceServer interface {
-	Save(context.Context, *Profile) (*Response, error)
+	Save(context.Context, *Key) (*Profile, error)
 	mustEmbedUnimplementedSaveServiceServer()
 }
 
@@ -54,7 +54,7 @@ type SaveServiceServer interface {
 type UnimplementedSaveServiceServer struct {
 }
 
-func (UnimplementedSaveServiceServer) Save(context.Context, *Profile) (*Response, error) {
+func (UnimplementedSaveServiceServer) Save(context.Context, *Key) (*Profile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
 }
 func (UnimplementedSaveServiceServer) mustEmbedUnimplementedSaveServiceServer() {}
@@ -71,7 +71,7 @@ func RegisterSaveServiceServer(s grpc.ServiceRegistrar, srv SaveServiceServer) {
 }
 
 func _SaveService_Save_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Profile)
+	in := new(Key)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func _SaveService_Save_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/javCrawler.SaveService/Save",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SaveServiceServer).Save(ctx, req.(*Profile))
+		return srv.(SaveServiceServer).Save(ctx, req.(*Key))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -101,5 +101,5 @@ var SaveService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "grpcsupport/grpc.proto",
+	Metadata: "grpc.proto",
 }

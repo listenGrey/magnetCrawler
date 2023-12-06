@@ -35,11 +35,11 @@ message Profile {
   repeated Magnet magnets = 17;
 }
 
-message Response {
+message Key {
     string message = 1;
 }
 
 service SaveService {
-    rpc Save (Profile) returns (Response) {}
+    rpc Save (Key) returns (Profile) {}
 }
 
