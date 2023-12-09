@@ -39,7 +39,7 @@ message Message {
     string message = 1;
 }
 
-service SaveService {
-    rpc Save (Profile) returns (Message) {}
+service SendService {
+    rpc Send(Message) returns (Profile) {}
 }
 

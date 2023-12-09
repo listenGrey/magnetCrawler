@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.25.0--rc1
-// source: grpc.proto
+// source: grpcsupport/grpc.proto
 
 package grpcsupport
 
@@ -18,88 +18,88 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// SaveServiceClient is the client API for SaveService service.
+// SendServiceClient is the client API for SendService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type SaveServiceClient interface {
-	Save(ctx context.Context, in *Profile, opts ...grpc.CallOption) (*Message, error)
+type SendServiceClient interface {
+	Send(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Profile, error)
 }
 
-type saveServiceClient struct {
+type sendServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewSaveServiceClient(cc grpc.ClientConnInterface) SaveServiceClient {
-	return &saveServiceClient{cc}
+func NewSendServiceClient(cc grpc.ClientConnInterface) SendServiceClient {
+	return &sendServiceClient{cc}
 }
 
-func (c *saveServiceClient) Save(ctx context.Context, in *Profile, opts ...grpc.CallOption) (*Message, error) {
-	out := new(Message)
-	err := c.cc.Invoke(ctx, "/javCrawler.SaveService/Save", in, out, opts...)
+func (c *sendServiceClient) Send(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Profile, error) {
+	out := new(Profile)
+	err := c.cc.Invoke(ctx, "/javCrawler.SendService/Send", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// SaveServiceServer is the server API for SaveService service.
-// All implementations must embed UnimplementedSaveServiceServer
+// SendServiceServer is the server API for SendService service.
+// All implementations must embed UnimplementedSendServiceServer
 // for forward compatibility
-type SaveServiceServer interface {
-	Save(context.Context, *Profile) (*Message, error)
-	mustEmbedUnimplementedSaveServiceServer()
+type SendServiceServer interface {
+	Send(context.Context, *Message) (*Profile, error)
+	mustEmbedUnimplementedSendServiceServer()
 }
 
-// UnimplementedSaveServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedSaveServiceServer struct {
+// UnimplementedSendServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedSendServiceServer struct {
 }
 
-func (UnimplementedSaveServiceServer) Save(context.Context, *Profile) (*Message, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
+func (UnimplementedSendServiceServer) Send(context.Context, *Message) (*Profile, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
 }
-func (UnimplementedSaveServiceServer) mustEmbedUnimplementedSaveServiceServer() {}
+func (UnimplementedSendServiceServer) mustEmbedUnimplementedSendServiceServer() {}
 
-// UnsafeSaveServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to SaveServiceServer will
+// UnsafeSendServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SendServiceServer will
 // result in compilation errors.
-type UnsafeSaveServiceServer interface {
-	mustEmbedUnimplementedSaveServiceServer()
+type UnsafeSendServiceServer interface {
+	mustEmbedUnimplementedSendServiceServer()
 }
 
-func RegisterSaveServiceServer(s grpc.ServiceRegistrar, srv SaveServiceServer) {
-	s.RegisterService(&SaveService_ServiceDesc, srv)
+func RegisterSendServiceServer(s grpc.ServiceRegistrar, srv SendServiceServer) {
+	s.RegisterService(&SendService_ServiceDesc, srv)
 }
 
-func _SaveService_Save_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Profile)
+func _SendService_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Message)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SaveServiceServer).Save(ctx, in)
+		return srv.(SendServiceServer).Send(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/javCrawler.SaveService/Save",
+		FullMethod: "/javCrawler.SendService/Send",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SaveServiceServer).Save(ctx, req.(*Profile))
+		return srv.(SendServiceServer).Send(ctx, req.(*Message))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// SaveService_ServiceDesc is the grpc.ServiceDesc for SaveService service.
+// SendService_ServiceDesc is the grpc.ServiceDesc for SendService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var SaveService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "javCrawler.SaveService",
-	HandlerType: (*SaveServiceServer)(nil),
+var SendService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "javCrawler.SendService",
+	HandlerType: (*SendServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Save",
-			Handler:    _SaveService_Save_Handler,
+			MethodName: "Send",
+			Handler:    _SendService_Send_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "grpc.proto",
+	Metadata: "grpcsupport/grpc.proto",
 }
