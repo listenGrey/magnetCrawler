@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SendServiceClient interface {
-	Send(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Profile, error)
+	Send(ctx context.Context, in *Profile, opts ...grpc.CallOption) (*Message, error)
 }
 
 type sendServiceClient struct {
@@ -33,8 +33,8 @@ func NewSendServiceClient(cc grpc.ClientConnInterface) SendServiceClient {
 	return &sendServiceClient{cc}
 }
 
-func (c *sendServiceClient) Send(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Profile, error) {
-	out := new(Profile)
+func (c *sendServiceClient) Send(ctx context.Context, in *Profile, opts ...grpc.CallOption) (*Message, error) {
+	out := new(Message)
 	err := c.cc.Invoke(ctx, "/javCrawler.SendService/Send", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (c *sendServiceClient) Send(ctx context.Context, in *Message, opts ...grpc.
 // All implementations must embed UnimplementedSendServiceServer
 // for forward compatibility
 type SendServiceServer interface {
-	Send(context.Context, *Message) (*Profile, error)
+	Send(context.Context, *Profile) (*Message, error)
 	mustEmbedUnimplementedSendServiceServer()
 }
 
@@ -54,7 +54,7 @@ type SendServiceServer interface {
 type UnimplementedSendServiceServer struct {
 }
 
-func (UnimplementedSendServiceServer) Send(context.Context, *Message) (*Profile, error) {
+func (UnimplementedSendServiceServer) Send(context.Context, *Profile) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
 }
 func (UnimplementedSendServiceServer) mustEmbedUnimplementedSendServiceServer() {}
@@ -71,7 +71,7 @@ func RegisterSendServiceServer(s grpc.ServiceRegistrar, srv SendServiceServer) {
 }
 
 func _SendService_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Message)
+	in := new(Profile)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func _SendService_Send_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/javCrawler.SendService/Send",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SendServiceServer).Send(ctx, req.(*Message))
+		return srv.(SendServiceServer).Send(ctx, req.(*Profile))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -40,6 +40,6 @@ message Message {
 }
 
 service SendService {
-    rpc Send(Message) returns (Profile) {}
+    rpc Send(Profile) returns (Message) {}
 }
 
